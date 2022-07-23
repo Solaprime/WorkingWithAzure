@@ -1,5 +1,6 @@
 ﻿using HelloAzure.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,18 @@ namespace HelloAzure.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration  config)
         {
             _logger = logger;
+            _configuration = config;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var model = _configuration["Greeting"];
+            return View("Index", model);
         }
 
         public IActionResult Privacy()
